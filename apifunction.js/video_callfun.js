@@ -107,6 +107,7 @@ const getPrivacy = (response) => {
 const getVersionData = (code, response) => {
  constant.MongoDb.version.findOne({ code: code }, function (err, res) {
   if (!err && res !== null) {
+   console.log(res);
    res.date = moment(res.date).format("YYYY-MM-DD HH:mm:ss");
    res.ad_master.forEach((item) => {
     item.adm_date = moment(item.adm_date).format("YYYY-MM-DD HH:mm:ss");
