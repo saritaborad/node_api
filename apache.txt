@@ -1,0 +1,142 @@
+virtual host :- 
+=> method of hosting multiple websites on a single physical server
+=> It allows a single server to serve content for multiple domains or websites, each with its own unique domain name, content, and configuration.
+=> Without virtual hosting, each website would require its own dedicated server,
+
+There are two main types of virtual hosting:
+1. Name-based Virtual Hosting:
+=> multiple domain names are hosted on the same IP address,
+=> web server looks at the domain name in the "Host" header and serves the corresponding content from the appropriate directory on the server.
+
+www.example.com -> serves content from /var/www/example_com/
+www.anotherexample.com -> serves content from /var/www/anotherexample_com/
+
+=> Name-based virtual hosting is commonly used when hosting multiple websites that don't require separate IP addresses and SSL certificates
+
+
+2. IP-based Virtual Hosting:
+=>  each website is assigned its own unique IP address, 
+and the web server uses different IP addresses to determine which website to serve
+=>  server listens on different IP addresses and maps each IP address to a specific website's content directory.
+
+IP Address 1 -> serves content from /var/www/example_com/
+IP Address 2 -> serves content from /var/www/anotherexample_com/
+
+IP-based virtual hosting is often used when hosting websites that require separate IP addresses for SSL certificates
+when dealing with legacy systems that don't support name-based virtual hosting.
+
+
+__________________________________________________________________________
+
+how to set up virtual hosts in Apache on a Linux-based system:
+
+1. Open the Apache configuration file
+sudo nano /etc/apache2/apache2.conf
+
+2. Enable the necessary Apache modules:
+sudo a2enmod vhost_alias
+
+3 Create a directory structure for your virtual hosts: 
+sudo mkdir /var/www/html/site1
+sudo mkdir /var/www/html/site2
+
+4 Assign appropriate permissions to the directories:
+sudo chown -R www-data:www-data /var/www/html/site1
+sudo chown -R www-data:www-data /var/www/html/site2
+
+5 Define virtual hosts in the Apache configuration:
+<VirtualHost *:80>
+    ServerAdmin admin@site1.com
+    ServerName site1.com
+    ServerAlias www.site1.com
+    DocumentRoot /var/www/html/site1
+    ErrorLog ${APACHE_LOG_DIR}/site1_error.log
+    CustomLog ${APACHE_LOG_DIR}/site1_access.log combined
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerAdmin admin@site2.com
+    ServerName site2.com
+    ServerAlias www.site2.com
+    DocumentRoot /var/www/html/site2
+    ErrorLog ${APACHE_LOG_DIR}/site2_error.log
+    CustomLog ${APACHE_LOG_DIR}/site2_access.log combined
+</VirtualHost>
+
+Test the configuration for syntax errors:
+sudo apachectl configtest
+
+Restart Apache to apply the changes:
+sudo service apache2 restart
+
+
+.htaccess file 
+=> To control caching behavior using .htaccess
+   => use the mod_expires module
+   => which is responsible for setting cache expiration times.
+=> Enable mod_expires
+   sudo a2enmod expires
+
+=> Edit the .htaccess file:
+Add the following lines to your .htaccess file to control caching for specific file types or directories:
+
+# Enable caching for image, CSS, and JavaScript files
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+</IfModule>
+
+# Cache control for HTML files (set to no caching)
+<FilesMatch "\.(html|htm)$">
+    Header set Cache-Control "max-age=0, no-store"
+</FilesMatch>
+
+=> Save the .htaccess file and restart Apache:
+sudo service apache2 restart
+
+Compression:
+=> Gzip compression reduces size of files transmitted over the internet
+=> It compresses the files on the server before sending them to the client's web browser.
+=>  browser then decompresses the files and renders the content as usual.
+=> This compression process significantly reduces the amount of data transferred over the network
+=> resulting in faster page load times and improved website performance.
+
+=> when Enable gzip compression 
+=> server checks for 'Accept-Encoding' header 
+=> client's browser send 'Accept-Encoding' header in the HTTP request
+=> If the browser supports gzip compression 
+=> server compresses the requested files and includes the Content-Encoding: gzip header in the HTTP response
+=> this incdicate to the browser that the response is compressed and needs to be decompressed before displaying the content.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

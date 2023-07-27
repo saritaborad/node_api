@@ -1,0 +1,161 @@
+Rate limiting 
+=> control the amount of incoming or outgoing traffic within a network
+=> securing backend APIs from malicious attacks 
+=> for handling unwanted streams of requests from users
+=> allows us to control the rate at which user requests are processed by our server.
+=> allows us to handle user requests based on some specified constraint 
+   => There is better flow of data
+   => There is a reduced risk of attack
+   => The server is never overloaded
+   => Users can only do as much as is allowed by the developer
+
+
+=> we might want to limit the number of requests an unsubscribed user can make to a public API to 1,000 requests per month
+=> Once the user exceeds that number, we can ignore the request and throw an error indicating that the user has exceeded their limit.
+
+for rate limiting to be implemented,
+there must be a clearly defined constraint (limit), which can be based on any of the following
+=> Users: the constraint is specific to a user 
+          is implemented using a unique user identifier
+=> Location: the constraint is based on geography 
+             is implemented based on the location from which the request was made
+=> IP addresses: the constraint is based on the IP address of the device that initiates a request 
+
+
+
+const rateLimiter = async (req, res, next) => {
+ try {
+  const currentTime = moment();
+  const windowBeginTimestamp = moment().subtract(WINDOW_DURATION_IN_MINUTES, "minutes").unix();
+  const windowLogTimestamp = moment().subtract(WINDOW_LOG_DURATION_IN_MINUTES, "minutes").unix();
+
+  const record = await collection.findOne({ ip: req.ip });
+
+  if (!record) {
+   // No record found for the IP, create a new record
+   const newRecord = {
+    ip: req.ip,
+    requests: [
+     {
+      requestTimeStamp: currentTime.unix(),
+      requestCount: 1,
+     },
+    ],
+   };
+   await collection.insertOne(newRecord);
+   next();
+  } else {
+   // Update the existing record
+   const data = record.requests;
+
+   // Filter requests within the current window
+   const requestsInWindow = data.filter((entry) => entry.requestTimeStamp > windowBeginTimestamp);
+
+   const totalWindowRequestsCount = requestsInWindow.reduce((accumulator, entry) => accumulator + entry.requestCount, 0);
+
+   if (totalWindowRequestsCount >= MAX_WINDOW_REQUEST_COUNT) {
+    return res.status(429).json({
+     error: `You have exceeded the ${MAX_WINDOW_REQUEST_COUNT} requests in ${WINDOW_DURATION_IN_MINUTES} minutes limit!`,
+    });
+   } else {
+    const lastRequestLog = data[data.length - 1];
+
+    if (lastRequestLog.requestTimeStamp > windowLogTimestamp) {
+     // Increment the request count for the current window
+     lastRequestLog.requestCount++;
+    } else {
+     // Start a new request count for the current window
+     data.push({
+      requestTimeStamp: currentTime.unix(),
+      requestCount: 1,
+     });
+    }
+
+    await collection.updateOne({ ip: req.ip }, { $set: { requests: data } });
+    next();
+   }
+  }
+ } catch (error) {
+  next(error);
+ }
+};
+
+
+=> reduce method will iterate over all the element of requestsInWindow array and accumulator which is set to 0 initially will be sum of accumulator and requestCount and will loop untill last element of array 
+
+  const totalWindowRequestsCount = requestsInWindow.reduce((accumulator, entry) => accumulator + entry.requestCount, 0);
+
+const socketApis = (socket) => {
+ socket.on("api_request", (data) => {
+  const { event_name, code, app_old_version, app_version, id, enable, clickId, date } = data;
+
+  if (data.length > 1e6) {
+   return socket.emit("api_response", ConstantMethod.Error("FLOOD ATTACK OR FAULTY CLIENT, NUKE REQUEST"));
+  }
+
+  ConstantMethod.CheckHeader(socket.request, constant, function (isValidHeader) {
+   if (!isValidHeader) {
+    return socket.emit("api_response", ConstantMethod.Error("Header is missing"));
+   }
+
+   switch (event_name) {
+    case "version":
+     return getVersionData(code, socket);
+
+    case "privacypolicy":
+     return getPrivacy(socket);
+
+    case "installtrack":
+     return getInstallTrack(app_version, app_old_version, socket);
+
+    case "term_of_use":
+     return Termofuse(socket);
+
+    case "appMaster":
+     return getAppMasterData(id, enable, socket);
+
+    case "CustomInApp":
+     return getCustomApp(socket);
+
+    case "HtmlTaglist":
+     return getcustomTaglist(socket);
+
+    case "customAdsClick":
+     return customAdsClick(id, clickId, date, socket);
+
+    case "sku":
+     return getSku(socket);
+
+    default:
+     return socket.emit("api_response", ConstantMethod.Invalid());
+   }
+  });
+ });
+};
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////
+socket.emit(eventName, data) 
+=> is used to send an event to a specific client/socket that is connected to the server.
+It is a one-to-one communication where the event is sent to a particular socket with a unique ID.
+
+io.emit:
+io.emit(eventName, data)
+=> is used to send an event to all connected clients/sockets that are currently connected to the server.
+It is a one-to-many communication where the event is broadcasted to all connected clients.
+
+socket.join(room)
+socket.leave(room)
+
+ => socket.emit() => to emit data to only current connected socket 
+ => io.emit() => to emit data to all connected socket 
+ => socket.broadcast.emit() => to emit data to all other socket except current connected 
+ => io.to(room).emit(eventName,data) => to emit data to only given room 
