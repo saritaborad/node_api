@@ -64,7 +64,7 @@ const getCustomApp = (socket) => {
  });
 };
 
-const getInstallTrack = (app_version, app_old_version, socket, io) => {
+const getInstallTrack = (app_version, app_old_version, socket) => {
  constant.MongoDb.version.findOne({ code: parseInt(app_version) }, function (err, res) {
   if (!err && res !== null) {
    if (app_version != app_old_version) {
@@ -192,7 +192,7 @@ const currancyData = (socket) => {
  });
 };
 
-const socketApis = (socket, connectedUsers, io) => {
+const socketApis = (socket, connectedUsers) => {
  socket.on("api_request", (data) => {
   const { event_name, code, app_old_version, app_version, id, enable, clickId, date } = data;
 
@@ -213,7 +213,7 @@ const socketApis = (socket, connectedUsers, io) => {
      return getPrivacy(socket);
 
     case "installtrack":
-     return getInstallTrack(app_version, app_old_version, socket, io);
+     return getInstallTrack(app_version, app_old_version, socket);
 
     case "term_of_use":
      return Termofuse(socket);

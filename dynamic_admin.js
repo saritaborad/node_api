@@ -12,7 +12,7 @@ io.on("connection", (socket) => {
  currentConnections[socket.id] = { client: socket };
  console.log(`socket connected to ${socket.id}`);
 
- socketApis(socket, currentConnections, io);
+ socketApis(socket, currentConnections);
 
  socket.on("disconnect", () => {
   console.log(Object.keys(currentConnections).length + " -- disconnect ! --> " + currentConnections[socket.id].client.id);

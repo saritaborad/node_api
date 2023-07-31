@@ -1,0 +1,80 @@
+// Example to enable and disble in one query
+
+1) constant.MongoDb.version
+  .updateMany({}, [{ $set: { enabled: { $cond: { if: { $eq: ["$_id", new ObjectId(code)] }, then: 1, else: 0 } } } }])
+  .then((result) => {   response.end(ConstantMethod.success(result));  })
+  .catch((error) => {    console.error("Error updating records:", error);  });
+
+2) YourModel.bulkWrite([{ updateMany: { filter: {}, update: { $set: { status: 0 } } } }, { updateOne: { filter: { _id: idToUpdate }, update: { $set: { status: 1 } } } }]);
+  
+
+Hook in nodejs
+=>  it is a mechanism to modify operations or events in application
+=>  mechanisms to register and execute custom code
+ when certain events occur or specific operations are performed
+
+=> Middleware Hooks in Express.js
+=> Event Hooks using EventEmitter:
+=> Pre and Post Hooks in Mongoose:
+=> Hooks in Webhooks:
+
+
+=> Middleware Hooks in Express.js
+   => middleware functions act as hooks => intercept and modify incoming HTTP req and outgoing res
+   => Middleware functions are executed in the order they are registered
+   => authentication, logging, error handling, and request preprocessing before passing control to the next middleware or route handler.
+
+  app.use((req, res, next) => {
+    console.log('Incoming request:', req.method, req.url);
+    next(); // Pass control to the next middleware or route handler
+  });
+
+=> Event Hooks using EventEmitter:
+   => In Node.js modules, you can define and emit custom events using EventEmitter
+   => Other parts of your application can listen for these events and execute specific actions when they are triggered
+
+  const EventEmitter = require('events');
+  class MyEmitter extends EventEmitter {}
+  const myEmitter = new MyEmitter();
+
+  // Define a hook (custom event)
+  myEmitter.on('customEvent', (data) => {
+    console.log('Custom event triggered:', data);
+  });
+
+  // Trigger the hook (emit the custom event)
+  myEmitter.emit('customEvent', { message: 'Hello, World!' });
+
+=> Pre and Post Hooks in Mongoose:
+   => Mongoose provides hooks that allow you to intercept and modify document operations before or after they are executed in the database.
+
+   // Pre-save hook: Execute before saving the document
+    userSchema.pre('save', function(next) {
+      console.log('Saving user:', this.name);
+      next();
+    }); 
+
+=> Hooks in Webhooks:
+  => Webhooks are user-defined HTTP callbacks 
+     => allow external services to be notified when certain events occur in an application
+     => These events could be triggered by actions like data updates, new user registrations, or payment confirmations
+     => Webhooks act as hooks to execute custom code on receiving the event notification
+
+     // Webhook endpoint for receiving event notifications
+    app.post('/webhook', (req, res) => {
+      const eventData = req.body; // Data sent by the external service
+      console.log('Received webhook event:', eventData);
+      // Process the event and execute custom actions
+      res.sendStatus(200); // Respond with a success status to the external service
+    });
+
+=> GitHub Webhooks => code push, pull request, or issue creation
+=> Payment Gateway Webhooks 
+  => notify merchants about payment events, such as successful payments, failed transactions, or chargebacks
+  => Merchants can use these webhooks to update the payment status in their systems or send order confirmation emails
+=> Chat Application Webhooks 
+  =>  to integrate third-party applications and systems with chat platforms.
+=> Web Forms Webhooks:  
+=> Weather API Webhooks: push real-time weather updates to subscribers, such as weather applications or websites,
+=> Webhooks for Event Notifications: 
+=> Social Media Webhooks: 
