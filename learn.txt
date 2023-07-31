@@ -1,5 +1,5 @@
 Rate limiting 
-=> control the amount of incoming or outgoing traffic within a network
+=> control the amount of incoming or outgoing traffic within a network 
 => securing backend APIs from malicious attacks 
 => for handling unwanted streams of requests from users
 => allows us to control the rate at which user requests are processed by our server.
@@ -8,7 +8,6 @@ Rate limiting
    => There is a reduced risk of attack
    => The server is never overloaded
    => Users can only do as much as is allowed by the developer
-
 
 => we might want to limit the number of requests an unsubscribed user can make to a public API to 1,000 requests per month
 => Once the user exceeds that number, we can ignore the request and throw an error indicating that the user has exceeded their limit.
@@ -21,8 +20,7 @@ there must be a clearly defined constraint (limit), which can be based on any of
              is implemented based on the location from which the request was made
 => IP addresses: the constraint is based on the IP address of the device that initiates a request 
 
-
-
+Example:- 
 const rateLimiter = async (req, res, next) => {
  try {
   const currentTime = moment();

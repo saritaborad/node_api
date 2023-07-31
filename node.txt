@@ -1,3 +1,234 @@
+1. what is nodejs? 
+=> open source, server-side javascript runtime environment,
+    => allows to run javascript code outside browser
+=> it uses v8 javascript engine from google crome to execute code
+=> provides built in modules for various tasks
+    => fs operations 
+    => networking
+    => HTTP handling 
+=> build scalable and efficient server-side apps 
+
+2. how does nodejs work? explain event driven, non blocking i/o model. 
+=> it uses an event loop to handle asynchronous operations
+    => without blocking the execution of other tasks.
+=> Node.js performs I/O operations, 
+    => it doesn't wait for the results but continues executing other code.  
+=> Once the I/O operation is completed, the corresponding callback is executed, and the result is processed
+
+3. what is difference between synchronous and asynchronous programming
+=> synchronous 
+  => code execution occurs sequentially
+  => each operation blocks the execution until it completes
+=> asynchronous programming
+  => allows multiple operations to be executed concurrently
+  => the program continues to run without waiting for the results of those operations  
+  => it is non-blocking and use callbacks or Promises to handle results
+
+4. how can you handle errors in nodejs?
+=> using try-catch blocks 
+=> by passing an error-first callback to handle errors in asynchronous operations
+=> middleware in Express.js can be used to handle errors globally
+
+5. Explain the role of the Node.js event loop in handling requests.
+=> When a request is received, 
+    => Node.js initiates the event loop to process the request asynchronously.
+    => event loop processes events from the event queue one by one
+    => it allows Node.js to handle multiple requests concurrently
+
+6. What are callbacks in Node.js? How can you avoid callback hell?
+=> Callbacks are functions passed as arguments to another function    
+=> used to handle asynchronous operations in Node.js
+=> Callback hell 
+    => refers to the situation where multiple nested callbacks make the code hard to read and maintain
+    => To avoid callback hell,
+    developers can use techniques like modularization, Promises, or async/await to write more structured and readable asynchronous code
+
+7. What are Promises in Node.js? How do they help in handling asynchronous operations?
+=> Promises are objects that represent the eventual completion (or failure) of an asynchronous operation
+=> provide a more structured way to handle asynchronous code
+=> it allow chaining of multiple asynchronous operations
+=> help in avoiding callback hell and enable better error handling through the use of catch blocks
+
+8. How can you use the async/await feature in Node.js to handle asynchronous operations?
+=> allows developers to write asynchronous code in a synchronous-like manner
+=> developers can write asynchronous code that looks similar to synchronous code, making it more readable and maintainable.
+
+9. What is middleware in the context of Node.js and Express.js? How is it used?
+=> functions that have access to the request and response objects
+=> can modify or terminate the request-response cycle
+=> to perform tasks like logging, authentication, error handling etc 
+=> each middleware are executed sequentially, 
+   and can pass the request to the next middleware in the chain using the next() function.
+
+10. What is package.json in Node.js, and what information does it contain?
+=> package.json is a file used to manage metadata and dependencies of a Node.js project.
+=> It contains information about the project, 
+  => such as the name, version, description, entry point, dependencies, and scripts to run various tasks
+
+11. How do you manage dependencies in Node.js projects?
+=> dependencies are managed using package managers like NPM (Node Package Manager) or Yarn
+=> Developers specify the required dependencies in the package.json file, 
+=> the package manager installs them automatically when the project is set up or when additional dependencies are added
+
+12. Explain the concept of streams in Node.js. What are the different types of streams?
+=> streams are objects that allow developers to read or write data in chunks instead of reading or writing the entire data at once
+=> Types:-
+  Readable, Writable, Duplex, and Transform
+=> useful for processing large amounts of data efficiently and handling data in a memory-friendly manner
+
+13. How can you handle file uploads in Node.js?
+=> using the multer middleware in Express.js.
+=> Multer allows easy handling of multipart/form-data
+=> provides methods to access the uploaded files and their metadata
+
+14. What is NPM (Node Package Manager), and how is it used in Node.js projects?
+=>  it allows developers to install, manage, and share packages and modules written in JavaScript
+=> used to install dependencies specified in the package.json file
+=> provides commands to run scripts, manage versions, and publish packages
+
+15. How do you deploy a Node.js application to a server?
+=> by copying the application files, 
+=> installing dependencies using NPM, 
+=> running the application using Node.js
+
+16. How can you debug Node.js applications?
+=> can be debugged using the built-in Node.js debugger, which allows setting breakpoints, inspecting variables, and stepping through code
+
+17. What is clustering in Node.js, and how does it improve application performance?
+=> It allows creating multiple instances (or workers) of the application
+   => to handle incoming requests concurrently
+=> Each worker runs in a separate process and can utilize multiple CPU cores
+     which improves application performance and scalability by distributing the workload
+
+18. How do you handle authentication and authorization in a Node.js application?
+=> using middleware
+
+19. What are the common security concerns in Node.js applications, and how can you address them?
+=> injection attacks, 
+=> cross-site scripting (XSS), 
+=> cross-site request forgery (CSRF), 
+=> insecure dependencies
+
+20. How can you improve the performance of a Node.js application?
+=> developers can optimize database queries
+=> cache frequently accessed data
+=> use clustering to utilize multiple CPU cores
+=> employ a content delivery network (CDN) for serving static assets
+=> using asynchronous I/O and avoiding synchronous operations
+
+21. Injection attacks
+=> attacker is able to inject malicious code into an application's input fields or parameters.
+=> injected code is then executed by the application, 
+  leading to unauthorized access,
+  data manipulation, 
+  even complete control of the application or the underlying system.
+=> SQL Injection
+  => attackers insert malicious SQL code into input fields or parameters that interact with a database
+=> Cross-Site Scripting (XSS):
+  => attacker injects malicious scripts into web pages that are viewed by other users
+=> Command Injection:
+  =>  injects malicious commands into an application's command-line input
+=> LDAP Injection:
+  => occur in app uses Lightweight Directory Access Protocol (LDAP) for authentication
+  => Attackers manipulate LDAP queries to bypass authentication or gain unauthorized access to the directory.
+=> XPath Injection:
+  =>  use XPath to query XML data. 
+  => Attackers inject malicious code into XPath queries to manipulate or access sensitive information.
+
+
+22. What is CORS?
+=> Cross-Origin Resource Sharing
+=> security feature implemented by web browsers
+    =>  allows web servers to specify which origins (domains) are allowed to access their resources
+=> CORS allows web servers to specify which origins are allowed to access their resources
+=> This is done through HTTP headers sent by the server in response to a client's request. 
+  => Access-Control-Allow-Origin 
+    =>  specifies which origin(s) are allowed to make requests to the server
+    => "*" means any origin is allowed
+
+  => Access-Control-Allow-Methods
+    => This header indicates the HTTP methods (e.g., GET, POST, PUT, DELETE) that are allowed when making cross-origin requests.
+
+  => Access-Control-Allow-Headers
+    => This header lists the HTTP headers that the client can include in the request when making a cross-origin request.
+
+  => Access-Control-Allow-Credentials
+    =>  If the server allows credentials (e.g., cookies, HTTP authentication) to be sent with the request, this header should be set to "true
+
+  => Access-Control-Expose-Headers 
+    => This header specifies which response headers should be exposed and made accessible to the client.
+
+  => Access-Control-Max-Age
+    => This header indicates how long the results of a preflight request (an OPTIONS request sent by the browser before making the actual request) can be cached.
+
+23. What is the purpose of the "fs" module in Node.js?
+=> can create, delete, or modify files, as well as read their contents asynchronously or synchronously
+
+24. How can you handle form submissions in a Node.js application?
+=> can handle form submissions using middleware 
+    => like "body-parser" to parse the form data from the request body
+
+25. What are WebSockets, and how can you use them in a Node.js application?
+=>  WebSockets are a communication protocol 
+  => that enables real-time, bidirectional data transfer between a client and a server 
+
+26. What is server-side rendering (SSR) in React, and how can you implement it in a Node.js application?
+=> Server-side rendering (SSR) is the process of rendering React components on the server and sending the generated HTML to the client
+=> it improves the initial page load time and search engine optimization
+=> To implement SSR in a Node.js application with React, you can use frameworks like Next.js
+
+27. How can you use environment variables in a Node.js application?
+=> Environment variables are used to store configuration settings for a Node.js
+=>  access environment variables using the "process.env" object
+
+path.resolve("public", "images", "logo.png")
+=> output:-  C:\Users\junior node\Desktop\pramay\public\images\logo.png
+=>  return absolve path of file or directory
+
+path.resolve()
+=> C:\Users\junior node\Desktop\pramay
+=> returns absolute path of project 
+
+path.resolve(__dirname)
+=> returns absolute path of current directory
+
+path.resolve(__filename)
+=> returns absolute path of current file
+
+path.join("/usr", "local", "bin", "app.js")
+=> \usr\local\bin\app.js
+
+path.dirname("C:\\Users\\junior node\\Desktop\\pramay\\public\\images\\logo.png")
+=> C:\Users\junior node\Desktop\pramay\public\images
+
+path.extname("C:\\Users\\junior node\\Desktop\\pramay\\public\\images\\logo.png")
+=> .png 
+
+path.normalize("C:\\Users\\junior node\\Desktop\\pramay\\..\\images\\logo.png")
+C:\Users\junior node\Desktop\images\logo.png
+=> it normalize path resolves . and ..
+
+path.isAbsolute('/path/to/file.txt') // true 
+path.isAbsolute('file.txt')       // false
+
+path.relative("C:\\Users\\junior node\\Desktop\\pramay\\images\\logo.png", "C:\\Users\\junior node\\Desktop")
+Output:- ..\..\..
+
+path.parse("C:\\Users\\junior node\\Desktop\\pramay\\images\\logo.png")
+Output:- 
+{
+  root: 'C:\\',
+  dir: 'C:\\Users\\junior node\\Desktop\\pramay\\images',
+  base: 'logo.png',
+  ext: '.png',
+  name: 'logo'
+}
+
+path.sep => returns / for window \ for linux
+
+
+
+
 // Example to enable and disble in one query
 
 1) constant.MongoDb.version
