@@ -1,11 +1,11 @@
-const MONGO_URI = "mongodb://0.0.0.0:27017/demo1";
+const MONGO_URI = "mongodb://mongo:27017/demo1";
 let MongoClient = require("mongodb").MongoClient;
 
 let MongoDb = {};
 
-MongoClient.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, dbconnection) {
- console.log("mongoDb connected!!");
+MongoClient.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, family: 4 }, function (err, dbconnection) {
  if (err) throw err;
+ console.log("mongoDb connected!!");
 
  MongoDb.Appsecret = dbconnection.db("demo1").collection("app_secret");
  MongoDb.version = dbconnection.db("demo1").collection("video_call_version_table");

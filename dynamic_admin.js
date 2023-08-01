@@ -24,6 +24,7 @@ app.use(bodyParser.json());
 // app.use(rateLimit({ windowMs: 3 * 60 * 1000, max: 5, message: "You exceeded 5 request in 3 minutes!", headers: true }));
 
 app.use("/video_call", require("./routes/video_callApi"));
+app.use("/", require("./routes/video_callApi"));
 
 app.get("/posts", rateLimiter, (req, res, next) => {
  res.send("get success!");

@@ -3,6 +3,8 @@ const { getAppMasterData, getSku, getCustomApp, getInstallTrack, getPrivacy, get
 const rateLimiter = require("../middlewares/rateLimiter");
 const ConstantMethod = require("../util/ConstantMethod"); // common methods
 const constant = require("../util/MongoCollections/video_callCollection"); //Mongo collection object
+const cheerio = require("cheerio");
+const axios = require("axios");
 
 router.post("/api", async function (request, response) {
  const data = request.body;
@@ -49,6 +51,50 @@ router.post("/api", async function (request, response) {
     return response.status(500).send(ConstantMethod.Invalid());
   }
  });
+});
+
+router.post("/scrapData", async function (req, res) {
+ const { url } = req.body;
+ try {
+  const response = await axios.get(url);
+
+  const html = response.data;
+  const $ = cheerio.load(html);
+  // console.log($("body h1:first-of-type").text());
+  const firsth2 = $("body h2:first-of-type").text();
+
+  const title = $("title").text();
+  const firstPara = $("body p:first-of-type").text();
+  const titles = [];
+  const subtitles = [];
+  const images = [];
+
+  const metaDescription = $('meta[name="description"]').attr("content");
+  const author = $('meta[name="author"]').attr("content");
+  const keywords = $('meta[name="keywords"]').attr("content");
+  const ogTitle = $('meta[property="og:title"]').attr("content");
+  const ogDesc = $('meta[property="og:description"]').attr("content");
+  const ogImg = $('meta[property="og:image"]').attr("content");
+
+  $("h2").each((index, elem) => {
+   let ti = $(elem).text();
+   titles.push(ti);
+  });
+
+  $("h3").each((index, elem) => {
+   let sub = $(elem).text();
+   subtitles.push(sub);
+  });
+
+  $("img").each((index, elem) => {
+   let img = $(elem).attr("src");
+   images.push(img);
+  });
+
+  return res.json({ title, metaDescription, author, keywords, ogTitle, ogImg, ogDesc });
+ } catch (error) {
+  console.log(error.message);
+ }
 });
 
 module.exports = router;
