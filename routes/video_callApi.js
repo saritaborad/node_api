@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const { getAppMasterData, getSku, getCustomApp, getInstallTrack, getPrivacy, getVersionData, getcustomTaglist, customAdsClick, Termofuse } = require("../apifunction.js/video_callfun");
-const rateLimiter = require("../middlewares/rateLimiter");
 const ConstantMethod = require("../util/ConstantMethod"); // common methods
 const constant = require("../util/MongoCollections/video_callCollection"); //Mongo collection object
 const cheerio = require("cheerio");

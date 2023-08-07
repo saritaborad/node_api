@@ -3,7 +3,7 @@ let MongoClient = require("mongodb").MongoClient;
 
 let MongoDb = {};
 
-MongoClient.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, family: 4 }, function (err, dbconnection) {
+MongoClient.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, dbconnection) {
  if (err) throw err;
  console.log("mongoDb connected!!");
 

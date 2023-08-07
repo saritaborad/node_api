@@ -9,8 +9,9 @@
 => build scalable and efficient server-side apps 
 
 2. how does nodejs work? explain event driven, non blocking i/o model. 
-=> it uses an event loop to handle asynchronous operations
-    => without blocking the execution of other tasks.
+=> it uses an event loop 
+  => to handle asynchronous operations
+  => without blocking the execution of other tasks.
 => Node.js performs I/O operations, 
     => it doesn't wait for the results but continues executing other code.  
 => Once the I/O operation is completed, the corresponding callback is executed, and the result is processed

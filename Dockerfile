@@ -1,16 +1,7 @@
-FROM node:18
-
-RUN mkdir /app
-
+FROM node:12.18.1
 WORKDIR /app
-
-COPY package*.json /app
-
-RUN npm install 
-
-COPY . /app
-
-
+COPY ["package.json", "package-lock.json*", "./"]
+RUN npm install
+COPY . .
 EXPOSE 5000
-CMD ["node", "dynamic_admin.js"]
-
+CMD ["npm", "run","dev"]
