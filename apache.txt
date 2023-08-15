@@ -113,6 +113,31 @@ Compression:
 => server compresses the requested files and includes the Content-Encoding: gzip header in the HTTP response
 => this incdicate to the browser that the response is compressed and needs to be decompressed before displaying the content.
 
+// generate ssl certificates for our websites apache config 
+https://www.digitalocean.com/community/tutorials/how-to-secure-apache-with-let-s-encrypt-on-ubuntu-20-04
+
+
+
+Configuring Apache to load balance to PM2 
+-----------------------------------------
+=> In order to balance against multiple NodeJS applications, modules must be enabled — proxy_balancer and lbmethod_byrequest.
+
+sudo a2enmod proxy_balancer 
+sudo a2enmod lbmethod_byrequests
+
+<VirtualHost *:80>
+    <Proxy balancer://microservice-cluster>
+        BalancerMember http://127.0.0.1:3000
+        BalancerMember http://127.0.0.1:3001
+        BalancerMember http://127.0.0.1:3002
+    </Proxy>
+
+    ProxyPreserveHost On
+
+    ProxyPass / balancer://microservice-cluster/
+    ProxyPassReverse / balancer://microservice-cluster/
+</VirtualHost>
+
 
 
 

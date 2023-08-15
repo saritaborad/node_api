@@ -1,4 +1,5 @@
-const MONGO_URI = "mongodb://mongo:27017/demo1";
+const MONGO_URI = "mongodb://127.0.0.1:27017/demo1";
+// const MONGO_URI = "mongodb://mongo:27017/demo1"; // for docker mongo is service name defined in docker-compose
 let MongoClient = require("mongodb").MongoClient;
 
 let MongoDb = {};
