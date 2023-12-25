@@ -83,7 +83,7 @@
 => provides methods to access the uploaded files and their metadata
 
 14. What is NPM (Node Package Manager), and how is it used in Node.js projects?
-=>  it allows developers to install, manage, and share packages and modules written in JavaScript
+=> it allows developers to install, manage, and share packages and modules written in JavaScript
 => used to install dependencies specified in the package.json file
 => provides commands to run scripts, manage versions, and publish packages
 
@@ -105,10 +105,32 @@
 => using middleware
 
 19. What are the common security concerns in Node.js applications, and how can you address them?
-=> injection attacks, 
+=> injection attacks
+  => in this attacker injetcs malicious data or code into application to manipulate beh of app or gain auauthorise access
+  => this type of attack mainly occur if application doesn't properly validate or sanitize user inputs
+
+    => SQL injection => manipulate input data to inject malicious SQL code into database queries
+    => SELECT * FROM users WHERE username = 'input' OR '1'='1';
+
 => cross-site scripting (XSS), 
+  
+  <script>alert('XSS Attack!');</script>
+
+  => its type of security vulnerability that occurs when attacker injects malicious script into web page that are viewed by users 
+  => it can allow attacker to steal user info, and do other malicious activity 
+
+     stored XSS(Persistant XSS):- 
+     => in this type of attack script is permanantly stored in targeted server
+    
+     Reflected XSS(Non-Persistant XSS):-
+     => in this type of Xss attack malicious script is injected in url or form input 
+
+     DOM based XSS 
+     => this type of attack occurs when the web page's DOM is manipulated by script to cause issue.
+
 => cross-site request forgery (CSRF), 
 => insecure dependencies
+
 
 20. How can you improve the performance of a Node.js application?
 => developers can optimize database queries
@@ -133,7 +155,7 @@
   => occur in app uses Lightweight Directory Access Protocol (LDAP) for authentication
   => Attackers manipulate LDAP queries to bypass authentication or gain unauthorized access to the directory.
 => XPath Injection:
-  =>  use XPath to query XML data. 
+  => use XPath to query XML data. 
   => Attackers inject malicious code into XPath queries to manipulate or access sensitive information.
 
 

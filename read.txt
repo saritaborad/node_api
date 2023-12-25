@@ -1,0 +1,84 @@
+what is nodejs 
+=> open source
+=> server side js run time env 
+=> allow to code js outside browser 
+=> it use v8 engine of crome to execute code 
+=> provide built in module such as fs, http 
+=> built scalable server side app
+
+how nodejs works 
+=> it uses event loop to handle async operation without blocking execution of other task 
+=> e.g when nodejs perform i/o operation, it doesn't wait for result it execute other code when i/o operation is completed the corresponding callback is executed and result is processed
+
+diff bet async and sync programming
+=>sync 
+=> it execute code sequentially
+=> each operation blocks execution until it complete
+=> async
+=> it allow multiple ops to perform concurrently
+=> it perform operation without waiting for result of those op 
+=> it is non-blocking and uses Promises and callback to handle result
+
+error handling in nodejs 
+=> try-catch 
+=> error first callback in async 
+=> middleware in Express to handle error 
+
+role of nodejs event loop in handling req 
+=> when request is received 
+=> nodejs initiate event loop to handle req async
+=> event loop process event from event queue one by one
+=> it allow multiple operation concurrently
+
+callback in nodejs, avoid callback hell
+=> callback is fun passed as arguments to another fun 
+=> used to handle async ops 
+=> callback hell
+=> when multiple nested callback make code hard to read 
+=> to avoid it we can use async/await or Promises
+
+promise in nodejs
+=> it is object which represent eventual success or failure of async ops 
+=> it allow chaining of multiple ops 
+=> more structured way to handle async ops 
+=> help in avoiding callback hell 
+=> provides catch block for err handling
+
+
+async/await 
+allow to write aync code in sync manner 
+we can write async code that looks similar to sync code 
+
+middleware in nodejs 
+=> it has access to request response obj 
+=> it can modify or terminate req-res cycle
+=> to perform task like authentication,error handling, logging etc.
+=> each middleware are executed sequentially,can pass req to next middleware in chain using next function 
+
+
+what is package.json 
+it is file which contains metadata and dependencies of nodejs pro 
+=> it information about project such as name,version,entry point,description and scripts to run various task 
+
+how to manage dependencies 
+
+what are streams in nodejs? types of streams?
+=> streams are object used to write or read data in chunk instead of writing at once 
+readable,Writable,Duplex,Transform
+=> it is used to read large amount of data efficiently and in memory-friendly manner
+
+what is npm 
+=> it allow developers to install,manage and share module written in javascript
+=> it allow to install dependencies specificied in package.json
+=> it provide command to run scripts,manage version, and publish package
+
+what is clustering in node.js 
+=> it allow to create multiple instances of application to handle multiple request concurrently
+=> each worker runs in seperate process can utilize multiple cpu core which improve perform and scalability of app by distributing the workload
+
+how to improve nodejs application performance 
+=> optimise db query 
+=> cache frequently used data 
+=> use clustering to use multiple CPU cores 
+=> using async ops 
+=> using CDN to serve static assets 

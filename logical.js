@@ -1,5 +1,7 @@
 //  if input is {a:1,b:2,c:3} then output should be {a:3,b:6,c:9}
 
+const { application } = require("express");
+
 let input = { a: 1, b: 2, c: 3 };
 
 //  1)

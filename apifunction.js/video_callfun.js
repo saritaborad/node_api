@@ -1,4 +1,3 @@
-const { ObjectId } = require("mongodb");
 const ConstantMethod = require("../util/ConstantMethod");
 const constant = require("../util/MongoCollections/video_callCollection");
 const moment = require("moment");
